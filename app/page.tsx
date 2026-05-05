@@ -3,97 +3,23 @@
 import React, { useState } from "react";
 
 export default function LiveDashboard() {
-  const [rows, setRows] = useState([
-    {
-      unit: "ดอนเมือง",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ขัดข้อง",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "Power Module Fault",
-      solution: "รอเปลี่ยนอะไหล่",
-    },
-    {
-      unit: "บน.1",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ปกติ",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "",
-      solution: "",
-    },
-    {
-      unit: "บน.4",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ปกติ",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "",
-      solution: "",
-    },
-    {
-      unit: "บน.7",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ปกติ",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "",
-      solution: "",
-    },
-    {
-      unit: "บน.21",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ปกติ",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "",
-      solution: "",
-    },
-  ]);
+  const [rows, setRows] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("perimaster-data");
+      if (saved) return JSON.parse(saved);
+    }
+    return $1;
+  });
 
   const updateRow = (index: number, field: string, value: string) => {
     const updated = [...rows];
     updated[index] = { ...updated[index], [field]: value };
     setRows(updated);
+    localStorage.setItem("perimaster-data", JSON.stringify(updated));
   };
 
   const addRow = () => {
-    setRows([
+    const newRows = [
       ...rows,
       {
         unit: "",
@@ -105,13 +31,15 @@ export default function LiveDashboard() {
         pantilt: "ปกติ",
         adsb: "ปกติ",
         upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
+        ups1: "ปกติ",
+        ups2: "ปกติ",
+        ups3: "ปกติ",
         issue: "",
         solution: "",
       },
-    ]);
+    ];
+    setRows(newRows);
+    localStorage.setItem("perimaster-data", JSON.stringify(newRows));
   };
 
   const badgeColor = (status: string) => {
@@ -127,21 +55,9 @@ export default function LiveDashboard() {
         Perimaster Live Monitoring Dashboard
       </h1>
 
-      <button
-        onClick={addRow}
-        style={{
-          marginBottom: "20px",
-          background: "#2563eb",
-          color: "white",
-          border: "none",
-          padding: "12px 20px",
-          borderRadius: "10px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
-      >
-        + เพิ่มหน่วย
-      </button>
+      <div style={{ marginBottom: "20px", fontSize: "18px", fontWeight: "bold", color: "#0f172a" }}>
+        อัปเดตล่าสุด: {new Date().toLocaleString("th-TH")}
+      </div>
 
       <div style={{ overflowX: "auto", background: "white", padding: "20px", borderRadius: "14px" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "1600px" }}>
@@ -199,10 +115,18 @@ export default function LiveDashboard() {
                         <option>รอตรวจสอบ</option>
                       </select>
                     ) : (
-                      <input
+                      <textarea
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
-                        style={{ width: "100%", padding: "6px" }}
+                        rows={2}
+                        style={{
+                          width: "100%",
+                          minWidth: "180px",
+                          padding: "8px",
+                          resize: "vertical",
+                          borderRadius: "8px",
+                          border: "1px solid #ccc"
+                        }}
                       />
                     )}
                   </td>
