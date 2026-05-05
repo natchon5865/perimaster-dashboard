@@ -303,20 +303,34 @@ export default function Page() {
                     }}
                   >
                     <select
-                      value={row[field]}
-                      onChange={(e) =>
-                        updateRow(
-                          idx,
-                          field,
-                          e.target.value as Status
-                        )
-                      }
-                      style={getStatusStyle(row[field] as Status)}
-                    >
-                      <option value="ปกติ">ปกติ</option>
-                      <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-                      <option value="ขัดข้อง">ขัดข้อง</option>
-                    </select>
+  value={row[field]}
+  onChange={(e) =>
+    updateRow(
+      idx,
+      field,
+      e.target.value as Status
+    )
+  }
+  style={getStatusStyle(row[field] as Status)}
+>
+  <option value="ปกติ" style={{ backgroundColor: "#16a34a", color: "white" }}>
+    ปกติ
+  </option>
+
+  <option
+    value="รอตรวจสอบ"
+    style={{ backgroundColor: "#d97706", color: "white" }}
+  >
+    รอตรวจสอบ
+  </option>
+
+  <option
+    value="ขัดข้อง"
+    style={{ backgroundColor: "#dc2626", color: "white" }}
+  >
+    ขัดข้อง
+  </option>
+</select>
                   </td>
                 ))}
 
