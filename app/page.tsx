@@ -159,7 +159,7 @@ export default function LiveDashboard() {
                 <th
                   key={h}
                   style={{
-                    padding: "8px",
+                    padding: "6px",
                     fontSize: "15px",
                     textAlign: "center",
                   }}
@@ -176,7 +176,7 @@ export default function LiveDashboard() {
                   <td
                     key={field}
                     style={{
-                      padding: "6px",
+                      padding: "4px",
                       fontSize: "15px",
                       textAlign: field === "unit" ? "left" : "center",
                     }}
@@ -187,8 +187,8 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "60px",
-                          padding: "6px",
+                          minWidth: "50px",
+                          padding: "4px",
                           fontSize: "15px",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
@@ -200,8 +200,8 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "70px",
-                          padding: "6px",
+                          minWidth: "55px",
+                          padding: "4px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
@@ -220,8 +220,8 @@ export default function LiveDashboard() {
                         rows={2}
                         style={{
                           width: "100%",
-                          minWidth: "260px",
-                          padding: "6px",
+                          minWidth: "340px",
+                          padding: "4px",
                           resize: "vertical",
                           wordBreak: "break-word",
                           borderRadius: "8px",
