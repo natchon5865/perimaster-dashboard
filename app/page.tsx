@@ -133,10 +133,13 @@ export default function Page() {
   const updateRow = (
     index: number,
     field: keyof UnitRow,
-    value: string
+    value: UnitRow[keyof UnitRow]
   ) => {
     const updated = [...rows];
-    (updated[index] as any)[field] = value;
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
     setRows(updated);
   };
 
@@ -302,9 +305,13 @@ export default function Page() {
                     <select
                       value={row[field]}
                       onChange={(e) =>
-                        updateRow(idx, field, e.target.value)
+                        updateRow(
+                          idx,
+                          field,
+                          e.target.value as Status
+                        )
                       }
-                      style={getStatusStyle(row[field])}
+                      style={getStatusStyle(row[field] as Status)}
                     >
                       <option value="ปกติ">ปกติ</option>
                       <option value="รอตรวจสอบ">รอตรวจสอบ</option>
@@ -324,7 +331,11 @@ export default function Page() {
                     <textarea
                       value={row.issue}
                       onChange={(e) =>
-                        updateRow(idx, "issue", e.target.value)
+                        updateRow(
+                          idx,
+                          "issue",
+                          e.target.value
+                        )
                       }
                       rows={2}
                       placeholder="ปัญหา"
@@ -334,7 +345,11 @@ export default function Page() {
                     <textarea
                       value={row.solution}
                       onChange={(e) =>
-                        updateRow(idx, "solution", e.target.value)
+                        updateRow(
+                          idx,
+                          "solution",
+                          e.target.value
+                        )
                       }
                       rows={2}
                       placeholder="การแก้ไข"
@@ -343,10 +358,11 @@ export default function Page() {
                   </div>
                 </td>
               </tr>
-                        ))}
+          ))}
           </tbody>
         </table>
       </div>
     </div>
   );
 }
+          
