@@ -8,21 +8,74 @@ export default function LiveDashboard() {
       const saved = localStorage.getItem("perimaster-data");
       if (saved) return JSON.parse(saved);
     }
-    return $1;
-  });
 
-  const updateRow = (index: number, field: string, value: string) => {
-    const updated = [...rows];
-    updated[index] = { ...updated[index], [field]: value };
-    setRows(updated);
-    localStorage.setItem("perimaster-data", JSON.stringify(updated));
-  };
-
-  const addRow = () => {
-    const newRows = [
-      ...rows,
+    return [
       {
-        unit: "",
+        unit: "ดอนเมือง",
+        rf1: "ปกติ",
+        rf2: "ปกติ",
+        rf3: "ปกติ",
+        jammer: "ขัดข้อง",
+        radar: "ปกติ",
+        pantilt: "ปติ",
+        adsb: "ปกติ",
+        upsc2: "ปกติ",
+        ups1: "ปกติ",
+        ups2: "ปกติ",
+        ups3: "ปกติ",
+        issue: "Power Module Fault",
+        solution: "รอเปลี่ยนอะไหล่",
+      },
+      {
+        unit: "บน.1",
+        rf1: "ปกติ",
+        rf2: "ปกติ",
+        rf3: "ปกติ",
+        jammer: "ปกติ",
+        radar: "ปกติ",
+        pantilt: "ปกติ",
+        adsb: "ปกติ",
+        upsc2: "ปกติ",
+        ups1: "ปกติ",
+        ups2: "ปกติ",
+        ups3: "ปกติ",
+        issue: "",
+        solution: "",
+      },
+      {
+        unit: "บน.4",
+        rf1: "ปกติ",
+        rf2: "ปกติ",
+        rf3: "ปกติ",
+        jammer: "ปกติ",
+        radar: "ปกติ",
+        pantilt: "ปกติ",
+        adsb: "ปกติ",
+        upsc2: "ปกติ",
+        ups1: "ปกติ",
+        ups2: "ปกติ",
+        ups3: "ปกติ",
+        issue: "",
+        solution: "",
+      },
+      {
+        unit: "บน.7",
+        rf1: "ปกติ",
+        rf2: "ปกติ",
+        rf3: "ปกติ",
+        jammer: "ปกติ",
+        radar: "ปกติ",
+        pantilt: "ปกติ",
+        adsb: "ปกติ",
+        upsc2: "ปกติ",
+        ups1: "ปกติ",
+        ups2: "ปกติ",
+        ups3: "ปกติ",
+        issue: "",
+        solution: "",
+      },
+      {
+        unit: "บน.21",
         rf1: "ปกติ",
         rf2: "ปกติ",
         rf3: "ปกติ",
@@ -38,8 +91,13 @@ export default function LiveDashboard() {
         solution: "",
       },
     ];
-    setRows(newRows);
-    localStorage.setItem("perimaster-data", JSON.stringify(newRows));
+  });
+
+  const updateRow = (index: number, field: string, value: string) => {
+    const updated = [...rows];
+    updated[index] = { ...updated[index], [field]: value };
+    setRows(updated);
+    localStorage.setItem("perimaster-data", JSON.stringify(updated));
   };
 
   const badgeColor = (status: string) => {
@@ -50,17 +108,44 @@ export default function LiveDashboard() {
   };
 
   return (
-    <div style={{ padding: "30px", background: "#f1f5f9", minHeight: "100vh", fontFamily: "Arial" }}>
-      <h1 style={{ fontSize: "36px", marginBottom: "20px" }}>
+    <div
+      style={{
+        padding: "30px",
+        background: "#f1f5f9",
+        minHeight: "100vh",
+        fontFamily: "Arial",
+      }}
+    >
+      <h1 style={{ fontSize: "36px", marginBottom: "10px" }}>
         Perimaster Live Monitoring Dashboard
       </h1>
 
-      <div style={{ marginBottom: "20px", fontSize: "18px", fontWeight: "bold", color: "#0f172a" }}>
+      <div
+        style={{
+          marginBottom: "20px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          color: "#0f172a",
+        }}
+      >
         อัปเดตล่าสุด: {new Date().toLocaleString("th-TH")}
       </div>
 
-      <div style={{ overflowX: "auto", background: "white", padding: "20px", borderRadius: "14px" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "1600px" }}>
+      <div
+        style={{
+          overflowX: "auto",
+          background: "white",
+          padding: "20px",
+          borderRadius: "14px",
+        }}
+      >
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            minWidth: "2200px",
+          }}
+        >
           <thead>
             <tr style={{ background: "#0f172a", color: "white" }}>
               {[
@@ -101,13 +186,16 @@ export default function LiveDashboard() {
                     field === "ups3" ? (
                       <select
                         value={(row as any)[field]}
-                        onChange={(e) => updateRow(idx, field, e.target.value)}
+                        onChange={(e) =>
+                          updateRow(idx, field, e.target.value)
+                        }
                         style={{
                           padding: "6px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
                           fontWeight: "bold",
+                          minWidth: "90px",
                         }}
                       >
                         <option>ปกติ</option>
@@ -117,15 +205,17 @@ export default function LiveDashboard() {
                     ) : (
                       <textarea
                         value={(row as any)[field]}
-                        onChange={(e) => updateRow(idx, field, e.target.value)}
+                        onChange={(e) =>
+                          updateRow(idx, field, e.target.value)
+                        }
                         rows={2}
                         style={{
                           width: "100%",
-                          minWidth: "180px",
+                          minWidth: "220px",
                           padding: "8px",
                           resize: "vertical",
                           borderRadius: "8px",
-                          border: "1px solid #ccc"
+                          border: "1px solid #ccc",
                         }}
                       />
                     )}
