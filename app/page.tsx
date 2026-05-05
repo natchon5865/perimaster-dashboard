@@ -344,7 +344,5 @@ export default function Page() {
                   </div>
                 </td>
               </tr>
-          )}
-            );
-            }
+          ))}
             
