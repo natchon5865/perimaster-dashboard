@@ -1,3 +1,4 @@
+```tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -121,8 +122,7 @@ export default function Page() {
 
   useEffect(() => {
     const updateClock = () => {
-      const now = new Date();
-      setCurrentTime(now.toLocaleString("th-TH"));
+      setCurrentTime(new Date().toLocaleString("th-TH"));
     };
 
     updateClock();
@@ -149,9 +149,9 @@ export default function Page() {
         ? "#d97706"
         : "#dc2626",
     color: "white",
-    minWidth: "121px",
-    maxWidth: "121px",
-    height: "44px",
+    minWidth: "132px",
+    maxWidth: "132px",
+    height: "46px",
     fontSize: "16px",
     fontWeight: "bold",
     padding: "6px 10px",
@@ -164,8 +164,8 @@ export default function Page() {
   });
 
   const textAreaStyle = {
-    width: "49%",
-    minWidth: "320px",
+    width: "48%",
+    minWidth: "340px",
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #ccc",
@@ -216,9 +216,9 @@ export default function Page() {
     >
       <h1
         style={{
-          fontSize: "52px",
+          fontSize: "48px",
           fontWeight: "bold",
-          marginBottom: "12px",
+          marginBottom: "10px",
         }}
       >
         Perimaster Live Monitoring Dashboard
@@ -226,9 +226,9 @@ export default function Page() {
 
       <div
         style={{
-          fontSize: "24px",
+          fontSize: "22px",
           fontWeight: "bold",
-          marginBottom: "25px",
+          marginBottom: "24px",
         }}
       >
         อัปเดตล่าสุด: {currentTime}
@@ -318,7 +318,7 @@ export default function Page() {
                   <div
                     style={{
                       display: "flex",
-                      gap: "12px",
+                      gap: "14px",
                       width: "100%",
                     }}
                   >
@@ -344,5 +344,3 @@ export default function Page() {
                   </div>
                 </td>
               </tr>
-          ))}
-            
