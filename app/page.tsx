@@ -159,8 +159,8 @@ export default function LiveDashboard() {
                 <th
                   key={h}
                   style={{
-                    padding: "5px 4px",
-                    fontSize: "13px",
+                    padding: "8px 6px",
+                    fontSize: "15px",
                     textAlign: "center",
                   }}
                 >
@@ -176,8 +176,8 @@ export default function LiveDashboard() {
                   <td
                     key={field}
                     style={{
-                      padding: "5px 4px",
-                      fontSize: "13px",
+                      padding: "8px 6px",
+                      fontSize: "15px",
                       textAlign: field === "unit" ? "left" : "center",
                     }}
                   >
@@ -187,9 +187,9 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "60px",
-                          padding: "5px 4px",
-                          fontSize: "13px",
+                          minWidth: "70px",
+                          padding: "8px 6px",
+                          fontSize: "15px",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
                         }}
@@ -200,13 +200,13 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "52px",
-                          padding: "5px 4px",
+                          minWidth: "78px",
+                          padding: "8px 6px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
                           fontWeight: "bold",
-                          fontSize: "13px",
+                          fontSize: "15px",
                         }}
                       >
                         <option>ปกติ</option>
@@ -220,13 +220,13 @@ export default function LiveDashboard() {
                         rows={2}
                         style={{
                           width: "100%",
-                          minWidth: "380px",
-                          padding: "5px 4px",
+                          minWidth: "520px",
+                          padding: "8px 6px",
                           resize: "vertical",
                           wordBreak: "break-word",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
-                          fontSize: "13px",
+                          fontSize: "15px",
                         }}
                       />
                     )}
