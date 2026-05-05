@@ -159,8 +159,8 @@ export default function LiveDashboard() {
                 <th
                   key={h}
                   style={{
-                    padding: "3px",
-                    fontSize: "14px",
+                    padding: "2px 3px",
+                    fontSize: "13px",
                     textAlign: "center",
                   }}
                 >
@@ -176,8 +176,8 @@ export default function LiveDashboard() {
                   <td
                     key={field}
                     style={{
-                      padding: "3px",
-                      fontSize: "14px",
+                      padding: "2px 3px",
+                      fontSize: "13px",
                       textAlign: field === "unit" ? "left" : "center",
                     }}
                   >
@@ -187,9 +187,9 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "45px",
-                          padding: "3px",
-                          fontSize: "14px",
+                          minWidth: "50px",
+                          padding: "2px 3px",
+                          fontSize: "13px",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
                         }}
@@ -200,13 +200,13 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "48px",
-                          padding: "3px",
+                          minWidth: "55px",
+                          padding: "2px 3px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
                           fontWeight: "bold",
-                          fontSize: "14px",
+                          fontSize: "13px",
                         }}
                       >
                         <option>ปกติ</option>
@@ -217,16 +217,16 @@ export default function LiveDashboard() {
                       <textarea
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
-                        rows={2}
+                        rows={1}
                         style={{
                           width: "100%",
-                          minWidth: "420px",
-                          padding: "3px",
+                          minWidth: "520px",
+                          padding: "2px 3px",
                           resize: "vertical",
                           wordBreak: "break-word",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
-                          fontSize: "14px",
+                          fontSize: "13px",
                         }}
                       />
                     )}
