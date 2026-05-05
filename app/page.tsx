@@ -1,96 +1,67 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function LiveDashboard() {
+  const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      setCurrentTime(
+        now.toLocaleString("th-TH", {
+          dateStyle: "short",
+          timeStyle: "medium",
+        })
+      );
+    };
+
+    updateClock();
+    const timer = setInterval(updateClock, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const defaultRows = [
+    {
+      unit: "ดอนเมือง",
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ขัดข้อง",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "Power Module Fault",
+      solution: "รอเปลี่ยนอะไหล่",
+    },
+    ...["บน.1", "บน.4", "บน.7", "บน.21"].map((unit) => ({
+      unit,
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ปกติ",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "",
+      solution: "",
+    })),
+  ];
+
   const [rows, setRows] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("perimaster-data");
       if (saved) return JSON.parse(saved);
     }
-
-    return [
-      {
-        unit: "ดอนเมือง",
-        rf1: "ปกติ",
-        rf2: "ปกติ",
-        rf3: "ปกติ",
-        jammer: "ขัดข้อง",
-        radar: "ปกติ",
-        pantilt: "ปติ",
-        adsb: "ปกติ",
-        upsc2: "ปกติ",
-        ups1: "ปกติ",
-        ups2: "ปกติ",
-        ups3: "ปกติ",
-        issue: "Power Module Fault",
-        solution: "รอเปลี่ยนอะไหล่",
-      },
-      {
-        unit: "บน.1",
-        rf1: "ปกติ",
-        rf2: "ปกติ",
-        rf3: "ปกติ",
-        jammer: "ปกติ",
-        radar: "ปกติ",
-        pantilt: "ปกติ",
-        adsb: "ปกติ",
-        upsc2: "ปกติ",
-        ups1: "ปกติ",
-        ups2: "ปกติ",
-        ups3: "ปกติ",
-        issue: "",
-        solution: "",
-      },
-      {
-        unit: "บน.4",
-        rf1: "ปกติ",
-        rf2: "ปกติ",
-        rf3: "ปกติ",
-        jammer: "ปกติ",
-        radar: "ปกติ",
-        pantilt: "ปกติ",
-        adsb: "ปกติ",
-        upsc2: "ปกติ",
-        ups1: "ปกติ",
-        ups2: "ปกติ",
-        ups3: "ปกติ",
-        issue: "",
-        solution: "",
-      },
-      {
-        unit: "บน.7",
-        rf1: "ปกติ",
-        rf2: "ปกติ",
-        rf3: "ปกติ",
-        jammer: "ปกติ",
-        radar: "ปกติ",
-        pantilt: "ปกติ",
-        adsb: "ปกติ",
-        upsc2: "ปกติ",
-        ups1: "ปกติ",
-        ups2: "ปกติ",
-        ups3: "ปกติ",
-        issue: "",
-        solution: "",
-      },
-      {
-        unit: "บน.21",
-        rf1: "ปกติ",
-        rf2: "ปกติ",
-        rf3: "ปกติ",
-        jammer: "ปกติ",
-        radar: "ปกติ",
-        pantilt: "ปกติ",
-        adsb: "ปกติ",
-        upsc2: "ปกติ",
-        ups1: "ปกติ",
-        ups2: "ปกติ",
-        ups3: "ปกติ",
-        issue: "",
-        solution: "",
-      },
-    ];
+    return defaultRows;
   });
 
   const updateRow = (index: number, field: string, value: string) => {
@@ -107,28 +78,48 @@ export default function LiveDashboard() {
     return "#64748b";
   };
 
+  const statusFields = [
+    "rf1",
+    "rf2",
+    "rf3",
+    "jammer",
+    "radar",
+    "pantilt",
+    "adsb",
+    "upsc2",
+    "ups1",
+    "ups2",
+    "ups3",
+  ];
+
   return (
     <div
       style={{
         padding: "30px",
-        background: "#f1f5f9",
+        background: "#f8fafc",
         minHeight: "100vh",
-        fontFamily: "Arial",
+        fontFamily: "Arial, sans-serif",
       }}
     >
-      <h1 style={{ fontSize: "36px", marginBottom: "10px" }}>
+      <h1
+        style={{
+          fontSize: "56px",
+          marginBottom: "10px",
+          color: "#0f172a",
+        }}
+      >
         Perimaster Live Monitoring Dashboard
       </h1>
 
       <div
         style={{
-          marginBottom: "20px",
-          fontSize: "18px",
+          marginBottom: "25px",
+          fontSize: "32px",
           fontWeight: "bold",
           color: "#0f172a",
         }}
       >
-        อัปเดตล่าสุด: {new Date().toLocaleString("th-TH")}
+        อัปเดตล่าสุด: {currentTime}
       </div>
 
       <div
@@ -137,13 +128,14 @@ export default function LiveDashboard() {
           background: "white",
           padding: "20px",
           borderRadius: "14px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
         }}
       >
         <table
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            minWidth: "2200px",
+            minWidth: "2600px",
           }}
         >
           <thead>
@@ -164,7 +156,7 @@ export default function LiveDashboard() {
                 "ปัญหา",
                 "การแก้ไข",
               ].map((h) => (
-                <th key={h} style={{ padding: "12px" }}>
+                <th key={h} style={{ padding: "18px", fontSize: "26px" }}>
                   {h}
                 </th>
               ))}
@@ -174,28 +166,32 @@ export default function LiveDashboard() {
             {rows.map((row, idx) => (
               <tr key={idx} style={{ borderBottom: "1px solid #ddd" }}>
                 {Object.keys(row).map((field) => (
-                  <td key={field} style={{ padding: "10px" }}>
-                    {field.includes("rf") ||
-                    field === "jammer" ||
-                    field === "radar" ||
-                    field === "pantilt" ||
-                    field === "adsb" ||
-                    field === "upsc2" ||
-                    field === "ups1" ||
-                    field === "ups2" ||
-                    field === "ups3" ? (
+                  <td key={field} style={{ padding: "14px", fontSize: "24px" }}>
+                    {field === "unit" ? (
+                      <input
+                        value={(row as any)[field]}
+                        onChange={(e) => updateRow(idx, field, e.target.value)}
+                        style={{
+                          width: "100%",
+                          minWidth: "140px",
+                          padding: "10px",
+                          fontSize: "24px",
+                          borderRadius: "8px",
+                          border: "1px solid #ccc",
+                        }}
+                      />
+                    ) : statusFields.includes(field) ? (
                       <select
                         value={(row as any)[field]}
-                        onChange={(e) =>
-                          updateRow(idx, field, e.target.value)
-                        }
+                        onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
-                          padding: "6px",
+                          padding: "10px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
                           fontWeight: "bold",
-                          minWidth: "90px",
+                          fontSize: "24px",
+                          minWidth: "140px",
                         }}
                       >
                         <option>ปกติ</option>
@@ -205,17 +201,16 @@ export default function LiveDashboard() {
                     ) : (
                       <textarea
                         value={(row as any)[field]}
-                        onChange={(e) =>
-                          updateRow(idx, field, e.target.value)
-                        }
-                        rows={2}
+                        onChange={(e) => updateRow(idx, field, e.target.value)}
+                        rows={4}
                         style={{
                           width: "100%",
-                          minWidth: "220px",
-                          padding: "8px",
+                          minWidth: "300px",
+                          padding: "10px",
                           resize: "vertical",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
+                          fontSize: "24px",
                         }}
                       />
                     )}
