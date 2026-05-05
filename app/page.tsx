@@ -1,84 +1,181 @@
+```tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function LiveDashboard() {
+type Status = "ปกติ" | "รอตรวจสอบ" | "ขัดข้อง";
+
+interface UnitRow {
+  unit: string;
+  rf1: Status;
+  rf2: Status;
+  rf3: Status;
+  jammer: Status;
+  radar: Status;
+  pantilt: Status;
+  adsb: Status;
+  upsc2: Status;
+  ups1: Status;
+  ups2: Status;
+  ups3: Status;
+  issue: string;
+  solution: string;
+}
+
+const defaultRows: UnitRow[] = [
+  {
+    unit: "ดอนเมือง",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ขัดข้อง",
+    radar: "ปกติ",
+    pantilt: "รอตรวจสอบ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "Power Module Fault",
+    solution: "รอเปลี่ยนอะไหล่",
+  },
+  {
+    unit: "บน.1",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.4",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.7",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.21",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+];
+
+export default function Page() {
+  const [rows, setRows] = useState<UnitRow[]>(defaultRows);
   const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("perimaster-dashboard");
+    if (saved) {
+      setRows(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("perimaster-dashboard", JSON.stringify(rows));
+  }, [rows]);
 
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
-      setCurrentTime(
-        now.toLocaleString("th-TH", {
-          dateStyle: "short",
-          timeStyle: "medium",
-        })
-      );
+      setCurrentTime(now.toLocaleString("th-TH"));
     };
 
     updateClock();
     const timer = setInterval(updateClock, 1000);
+
     return () => clearInterval(timer);
   }, []);
 
-  const defaultRows = [
-    {
-      unit: "ดอนเมือง",
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ขัดข้อง",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "Power Module Fault",
-      solution: "รอเปลี่ยนอะไหล่",
-    },
-    ...["บน.1", "บน.4", "บน.7", "บน.21"].map((unit) => ({
-      unit,
-      rf1: "ปกติ",
-      rf2: "ปกติ",
-      rf3: "ปกติ",
-      jammer: "ปกติ",
-      radar: "ปกติ",
-      pantilt: "ปกติ",
-      adsb: "ปกติ",
-      upsc2: "ปกติ",
-      ups1: "ปกติ",
-      ups2: "ปกติ",
-      ups3: "ปกติ",
-      issue: "",
-      solution: "",
-    })),
-  ];
+  const updateRow = (
+    index: number,
+    field: keyof UnitRow,
+    value: string
+  ) => {
+    const updated = [...rows];
+    (updated[index] as any)[field] = value;
+    setRows(updated);
+  };
 
-  const [rows, setRows] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("perimaster-data");
-      if (saved) return JSON.parse(saved);
-    }
-    return defaultRows;
+  const getStatusStyle = (status: Status) => ({
+    background:
+      status === "ปกติ"
+        ? "#16a34a"
+        : status === "รอตรวจสอบ"
+        ? "#d97706"
+        : "#dc2626",
+    color: "white",
+    minWidth: "121px",
+    maxWidth: "121px",
+    height: "44px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    padding: "6px 10px",
+    textAlign: "center" as const,
+    borderRadius: "10px",
+    whiteSpace: "nowrap" as const,
+    border: "none",
+    outline: "none",
+    cursor: "pointer",
   });
 
-  const updateRow = (index: number, field: string, value: string) => {
-    const updated = [...rows];
-    updated[index] = { ...updated[index], [field]: value };
-    setRows(updated);
-    localStorage.setItem("perimaster-data", JSON.stringify(updated));
+  const textAreaStyle = {
+    width: "49%",
+    minWidth: "320px",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    fontSize: "15px",
+    resize: "vertical" as const,
+    boxSizing: "border-box" as const,
   };
 
-  const badgeColor = (status: string) => {
-    if (status === "ปกติ") return "#16a34a";
-    if (status === "ขัดข้อง") return "#dc2626";
-    if (status === "รอตรวจสอบ") return "#ca8a04";
-    return "#64748b";
-  };
-
-  const statusFields = [
+  const statusFields: (keyof UnitRow)[] = [
     "rf1",
     "rf2",
     "rf3",
@@ -92,20 +189,37 @@ export default function LiveDashboard() {
     "ups3",
   ];
 
+  const headers = [
+    "หน่วย",
+    "RF1",
+    "RF2",
+    "RF3",
+    "Jammer",
+    "Radar",
+    "PanTilt",
+    "ADS-B",
+    "UPS C2",
+    "UPS 1",
+    "UPS 2",
+    "UPS 3",
+    "ปัญหา",
+    "การแก้ไข",
+  ];
+
   return (
     <div
       style={{
         padding: "30px",
+        fontFamily: "Arial, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
       }}
     >
       <h1
         style={{
-          fontSize: "42px",
-          marginBottom: "10px",
-          color: "#0f172a",
+          fontSize: "52px",
+          fontWeight: "bold",
+          marginBottom: "12px",
         }}
       >
         Perimaster Live Monitoring Dashboard
@@ -113,10 +227,9 @@ export default function LiveDashboard() {
 
       <div
         style={{
-          marginBottom: "25px",
           fontSize: "24px",
           fontWeight: "bold",
-          color: "#0f172a",
+          marginBottom: "25px",
         }}
       >
         อัปเดตล่าสุด: {currentTime}
@@ -124,120 +237,111 @@ export default function LiveDashboard() {
 
       <div
         style={{
-          overflowX: "hidden",
           background: "white",
-          padding: "20px",
-          borderRadius: "14px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          borderRadius: "16px",
+          padding: "18px",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+          overflowX: "auto",
         }}
       >
         <table
           style={{
-            width: "75%",
+            width: "100%",
             borderCollapse: "collapse",
-            tableLayout: "fixed",
+            tableLayout: "auto",
           }}
         >
           <thead>
-            <tr style={{ background: "#0f172a", color: "white" }}>
-              {[
-                "หน่วย",
-                "RF1",
-                "RF2",
-                "RF3",
-                "Jammer",
-                "Radar",
-                "PanTilt",
-                "ADS-B",
-                "UPS C2",
-                "UPS 1",
-                "UPS 2",
-                "UPS 3",
-                "ปัญหา",
-                "การแก้ไข",
-              ].map((h) => (
+            <tr
+              style={{
+                background: "#0f172a",
+                color: "white",
+              }}
+            >
+              {headers.map((header) => (
                 <th
-                  key={h}
+                  key={header}
                   style={{
-                    padding: "8px 2px",
+                    padding: "10px 6px",
                     fontSize: "15px",
                     textAlign: "center",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {h}
+                  {header}
                 </th>
               ))}
             </tr>
           </thead>
+
           <tbody>
             {rows.map((row, idx) => (
-              <tr key={idx} style={{ borderBottom: "1px solid #ddd" }}>
-                {Object.keys(row).map((field, fieldIndex) => (
+              <tr
+                key={idx}
+                style={{
+                  borderBottom: "1px solid #e5e7eb",
+                }}
+              >
+                <td
+                  style={{
+                    padding: "8px",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {row.unit}
+                </td>
+
+                {statusFields.map((field) => (
                   <td
                     key={field}
                     style={{
-                      padding: "8px 2px",
-                      fontSize: "15px",
-                      textAlign: field === "unit" ? "left" : "center",
+                      padding: "6px 3px",
+                      textAlign: "center",
                     }}
                   >
-                    {field === "unit" ? (
-                      <input
-                        value={(row as any)[field]}
-                        onChange={(e) => updateRow(idx, field, e.target.value)}
-                        style={{
-                          width: "75%",
-                          minWidth: "70px",
-                          padding: "8px 2px",
-                          fontSize: "15px",
-                          borderRadius: "8px",
-                          border: "1px solid #ccc",
-                        }}
-                      />
-                    ) : statusFields.includes(field) ? (
-                      <select
-                        value={(row as any)[field]}
-                        onChange={(e) => updateRow(idx, field, e.target.value)}
-                        style={{
-                          width: "78%",
-                          minWidth: "45px",
-                          padding: "8px 2px",
-                          borderRadius: "8px",
-                          background: badgeColor((row as any)[field]),
-                          color: "white",
-                          fontWeight: "bold",
-                          fontSize: "15px",
-                        }}
-                      >
-                        <option>ปกติ</option>
-                        <option>ขัดข้อง</option>
-                        <option>รอตรวจสอบ</option>
-                      </select>
-                    ) : (
-                      <textarea
-                        value={(row as any)[field]}
-                        onChange={(e) => updateRow(idx, field, e.target.value)}
-                        rows={2}
-                        style={{
-                          width: "48%",
-                          minWidth: "360px",
-                          marginRight: field === "issue" ? "2%" : "0",
-                          padding: "8px 2px",
-                          resize: "vertical",
-                          wordBreak: "break-word",
-                          borderRadius: "8px",
-                          border: "1px solid #ccc",
-                          fontSize: "15px",
-                        }}
-                      />
-                    )}
+                    <select
+                      value={row[field]}
+                      onChange={(e) =>
+                        updateRow(idx, field, e.target.value)
+                      }
+                      style={getStatusStyle(row[field])}
+                    >
+                      <option value="ปกติ">ปกติ</option>
+                      <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+                      <option value="ขัดข้อง">ขัดข้อง</option>
+                    </select>
                   </td>
                 ))}
+
+                <td colSpan={2} style={{ padding: "8px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      width: "100%",
+                    }}
+                  >
+                    <textarea
+                      value={row.issue}
+                      onChange={(e) =>
+                        updateRow(idx, "issue", e.target.value)
+                      }
+                      rows={2}
+                      placeholder="ปัญหา"
+                      style={textAreaStyle}
+                    />
+
+                    <textarea
+                      value={row.solution}
+                      onChange={(e) =>
+                        updateRow(idx, "solution", e.target.value)
+                      }
+                      rows={2}
+                      placeholder="การแก้ไข"
+                      style={textAreaStyle}
+                    />
+                  </div>
+                </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
