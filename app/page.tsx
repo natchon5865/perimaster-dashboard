@@ -221,7 +221,7 @@ export default function LiveDashboard() {
                         style={{
                           width: "48%",
                           minWidth: "360px",
-                          marginRight: field === "issue" ? "2%" : "0"
+                          marginRight: field === "issue" ? "2%" : "0",
                           padding: "8px 2px",
                           resize: "vertical",
                           wordBreak: "break-word",
