@@ -134,6 +134,7 @@ export default function LiveDashboard() {
         <table
           style={{
             width: "100%",
+                          textAlign: field === "unit" ? "left" : "center",
             borderCollapse: "collapse",
             tableLayout: "fixed",
           }}
@@ -156,7 +157,7 @@ export default function LiveDashboard() {
                 "ปัญหา",
                 "การแก้ไข",
               ].map((h) => (
-                <th key={h} style={{ padding: "10px", fontSize: "16px" }}>
+                <th key={h} style={{ padding: "8px", fontSize: "15px", textAlign: "center" }}>
                   {h}
                 </th>
               ))}
@@ -166,16 +167,17 @@ export default function LiveDashboard() {
             {rows.map((row, idx) => (
               <tr key={idx} style={{ borderBottom: "1px solid #ddd" }}>
                 {Object.keys(row).map((field) => (
-                  <td key={field} style={{ padding: "8px", fontSize: "16px" }}>
+                  <td key={field} style={{ padding: "6px", fontSize: "15px", textAlign: "center" }}>
                     {field === "unit" ? (
                       <input
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "80px",
-                          padding: "10px",
-                          fontSize: "16px",
+                          textAlign: field === "unit" ? "left" : "center",
+                          minWidth: "60px",
+                          padding: "6px
+                          fontSize: "15px",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
                         }}
@@ -185,12 +187,12 @@ export default function LiveDashboard() {
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
-                          padding: "10px",
+                          padding: "6px
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
                           fontWeight: "bold",
-                          fontSize: "16px",
+                          fontSize: "15px",
                           minWidth: "80px",
                         }}
                       >
@@ -205,13 +207,14 @@ export default function LiveDashboard() {
                         rows={2}
                         style={{
                           width: "100%",
-                          minWidth: "140px",
-                          padding: "10px",
+                          textAlign: field === "unit" ? "left" : "center",
+                          minWidth: "260px",
+                          padding: "6px
                           resize: "vertical",
                           wordBreak: "break-word",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
-                          fontSize: "16px",
+                          fontSize: "15px",
                         }}
                       />
                     )}
