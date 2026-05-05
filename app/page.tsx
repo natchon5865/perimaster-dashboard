@@ -172,7 +172,7 @@ export default function LiveDashboard() {
           <tbody>
             {rows.map((row, idx) => (
               <tr key={idx} style={{ borderBottom: "1px solid #ddd" }}>
-                {Object.keys(row).map((field) => (
+                {Object.keys(row).map((field, fieldIndex) => (
                   <td
                     key={field}
                     style={{
@@ -199,8 +199,8 @@ export default function LiveDashboard() {
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
-                          width: "75%",
-                          minWidth: "42px",
+                          width: "78%",
+                          minWidth: "45px",
                           padding: "8px 2px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
@@ -219,8 +219,9 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         rows={2}
                         style={{
-                          width: "75%",
-                          minWidth: "760px",
+                          width: "48%",
+                          minWidth: "360px",
+                          marginRight: field === "issue" ? "2%" : "0"
                           padding: "8px 2px",
                           resize: "vertical",
                           wordBreak: "break-word",
