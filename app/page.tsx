@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React from "react";
 
-const dailyData = [
+const data = [
   {
     date: "2026-05-05",
     location: "ดอนเมือง",
@@ -11,7 +11,7 @@ const dailyData = [
     rf3: "ปกติ",
     jammer: "ขัดข้อง",
     radar: "ปกติ",
-    panTilt: "ปกติ",
+    pantilt: "ปกติ",
     adsb: "ปกติ",
     ups: "ปกติ",
     issue: "Power Module Fault",
@@ -26,7 +26,7 @@ const dailyData = [
     rf3: "ปกติ",
     jammer: "ปกติ",
     radar: "รอตรวจสอบ",
-    panTilt: "ปกติ",
+    pantilt: "ปกติ",
     adsb: "ปกติ",
     ups: "ปกติ",
     issue: "Radar signal unstable",
@@ -35,73 +35,109 @@ const dailyData = [
   },
 ];
 
-const statusColor: Record<string, string> = {
-  "ปกติ": "bg-green-100 text-green-700",
-  "ขัดข้อง": "bg-red-100 text-red-700",
-  "รอตรวจสอบ": "bg-yellow-100 text-yellow-700",
-  "ซ่อมแล้ว": "bg-blue-100 text-blue-700",
-};
+function statusColor(status: string) {
+  if (status === "ปกติ") return "#16a34a";
+  if (status === "ขัดข้อง") return "#dc2626";
+  if (status === "รอตรวจสอบ") return "#ca8a04";
+  return "#64748b";
+}
 
-function Badge({ status }: { status: string }) {
+function badge(status: string) {
   return (
-    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor[status] || "bg-slate-100 text-slate-500"}`}>
+    <span
+      style={{
+        background: statusColor(status),
+        color: "white",
+        padding: "4px 10px",
+        borderRadius: "999px",
+        fontSize: "12px",
+        fontWeight: "bold",
+      }}
+    >
       {status}
     </span>
   );
 }
 
-function StatCard({ title, value }: { title: string; value: string | number }) {
-  return (
-    <div className="bg-white rounded-2xl shadow-md p-5 border border-slate-100">
-      <p className="text-slate-500 text-sm">{title}</p>
-      <h2 className="text-3xl font-bold mt-2">{value}</h2>
-    </div>
-  );
-}
-
 export default function PremiumDashboard() {
-  const [search, setSearch] = useState("");
-
-  const filtered = useMemo(() => {
-    return dailyData.filter(
-      (d) =>
-        d.location.toLowerCase().includes(search.toLowerCase()) ||
-        d.issue.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
-
   return (
-    <div className="min-h-screen bg-slate-100 p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <header className="bg-gradient-to-r from-slate-900 to-slate-700 text-white rounded-3xl p-8 shadow-lg">
-          <h1 className="text-4xl font-bold">Perimaster Enterprise Premium Dashboard</h1>
-          <p className="mt-3 text-slate-200 text-lg">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f1f5f9",
+        padding: "30px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: "1600px", margin: "0 auto" }}>
+        <div
+          style={{
+            background: "linear-gradient(90deg,#0f172a,#334155)",
+            color: "white",
+            padding: "30px",
+            borderRadius: "20px",
+            marginBottom: "25px",
+          }}
+        >
+          <h1 style={{ fontSize: "42px", margin: 0 }}>
+            Perimaster Enterprise Premium Dashboard
+          </h1>
+          <p style={{ marginTop: "10px", color: "#cbd5e1" }}>
             ระบบติดตามสถานภาพอุปกรณ์ Perimaster รายวันระดับองค์กร
           </p>
-        </header>
+        </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-5">
-          <StatCard title="จำนวนหน่วย" value={dailyData.length} />
-          <StatCard title="ขัดข้อง" value={dailyData.filter((d) => d.jammer === "ขัดข้อง").length} />
-          <StatCard title="รอตรวจสอบ" value={dailyData.filter((d) => d.radar === "รอตรวจสอบ" || d.rf2 === "รอตรวจสอบ").length} />
-          <StatCard title="วันที่ล่าสุด" value={dailyData[0].date} />
-        </section>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "20px",
+            marginBottom: "30px",
+          }}
+        >
+          {[
+            ["จำนวนหน่วย", data.length],
+            ["ขัดข้อง", 1],
+            ["รอตรวจสอบ", 1],
+            ["วันที่ล่าสุด", data[0].date],
+          ].map(([title, value], idx) => (
+            <div
+              key={idx}
+              style={{
+                background: "white",
+                padding: "25px",
+                borderRadius: "18px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              }}
+            >
+              <p style={{ color: "#64748b", margin: 0 }}>{title}</p>
+              <h2 style={{ fontSize: "32px", marginTop: "10px" }}>{value}</h2>
+            </div>
+          ))}
+        </div>
 
-        <section className="bg-white rounded-3xl shadow-lg p-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <h2 className="text-2xl font-bold">รายงานสถานภาพประจำวัน</h2>
-            <input
-              className="border border-slate-300 rounded-2xl px-4 py-3 w-full md:w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="ค้นหาหน่วย / ปัญหา"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+        <div
+          style={{
+            background: "white",
+            borderRadius: "20px",
+            padding: "25px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          }}
+        >
+          <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>
+            รายงานสถานภาพประจำวัน
+          </h2>
 
-          <div className="overflow-x-auto rounded-2xl border">
-            <table className="min-w-full text-sm text-left border-collapse">
-              <thead className="bg-slate-800 text-white">
-                <tr>
+          <div style={{ overflowX: "auto" }}>
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                minWidth: "1400px",
+              }}
+            >
+              <thead>
+                <tr style={{ background: "#1e293b", color: "white" }}>
                   {[
                     "วันที่",
                     "หน่วย",
@@ -117,51 +153,69 @@ export default function PremiumDashboard() {
                     "การแก้ไข",
                     "หมายเหตุ",
                   ].map((head) => (
-                    <th key={head} className="p-4 whitespace-nowrap">
+                    <th
+                      key={head}
+                      style={{ padding: "14px", textAlign: "left" }}
+                    >
                       {head}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((row, idx) => (
-                  <tr key={idx} className="border-t hover:bg-slate-50">
-                    <td className="p-3">{row.date}</td>
-                    <td className="p-3 font-semibold">{row.location}</td>
-                    <td className="p-3"><Badge status={row.rf1} /></td>
-                    <td className="p-3"><Badge status={row.rf2} /></td>
-                    <td className="p-3"><Badge status={row.rf3} /></td>
-                    <td className="p-3"><Badge status={row.jammer} /></td>
-                    <td className="p-3"><Badge status={row.radar} /></td>
-                    <td className="p-3"><Badge status={row.panTilt} /></td>
-                    <td className="p-3"><Badge status={row.adsb} /></td>
-                    <td className="p-3"><Badge status={row.ups} /></td>
-                    <td className="p-3">{row.issue}</td>
-                    <td className="p-3">{row.solution}</td>
-                    <td className="p-3">{row.note}</td>
+                {data.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    style={{
+                      borderBottom: "1px solid #e2e8f0",
+                      background: idx % 2 === 0 ? "#f8fafc" : "white",
+                    }}
+                  >
+                    <td style={{ padding: "12px" }}>{row.date}</td>
+                    <td style={{ padding: "12px", fontWeight: "bold" }}>
+                      {row.location}
+                    </td>
+                    <td style={{ padding: "12px" }}>{badge(row.rf1)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.rf2)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.rf3)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.jammer)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.radar)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.pantilt)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.adsb)}</td>
+                    <td style={{ padding: "12px" }}>{badge(row.ups)}</td>
+                    <td style={{ padding: "12px" }}>{row.issue}</td>
+                    <td style={{ padding: "12px" }}>{row.solution}</td>
+                    <td style={{ padding: "12px" }}>{row.note}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </div>
 
-        <section className="bg-white rounded-3xl shadow-lg p-6">
-          <div className="flex flex-wrap gap-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-2xl font-semibold">
-              อัปโหลด Excel Daily
+        <div style={{ marginTop: "25px", display: "flex", gap: "15px", flexWrap: "wrap" }}>
+          {[
+            ["อัปโหลด Excel Daily", "#2563eb"],
+            ["Export Excel", "#16a34a"],
+            ["PDF Report", "#dc2626"],
+            ["Admin Panel", "#0f172a"],
+          ].map(([label, color], idx) => (
+            <button
+              key={idx}
+              style={{
+                background: color,
+                color: "white",
+                border: "none",
+                padding: "14px 24px",
+                borderRadius: "14px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              {label}
             </button>
-            <button className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold">
-              Export Excel
-            </button>
-            <button className="bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-2xl font-semibold">
-              PDF Report
-            </button>
-            <button className="bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-2xl font-semibold">
-              Admin Panel
-            </button>
-          </div>
-        </section>
+          ))}
+        </div>
       </div>
     </div>
   );
