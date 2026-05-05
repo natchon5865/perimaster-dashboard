@@ -13,9 +13,76 @@ export default function LiveDashboard() {
       radar: "ปกติ",
       pantilt: "ปกติ",
       adsb: "ปกติ",
-      ups: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
       issue: "Power Module Fault",
       solution: "รอเปลี่ยนอะไหล่",
+    },
+    {
+      unit: "บน.1",
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ปกติ",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "",
+      solution: "",
+    },
+    {
+      unit: "บน.4",
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ปกติ",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "",
+      solution: "",
+    },
+    {
+      unit: "บน.7",
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ปกติ",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "",
+      solution: "",
+    },
+    {
+      unit: "บน.21",
+      rf1: "ปกติ",
+      rf2: "ปกติ",
+      rf3: "ปกติ",
+      jammer: "ปกติ",
+      radar: "ปกติ",
+      pantilt: "ปกติ",
+      adsb: "ปกติ",
+      upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
+      issue: "",
+      solution: "",
     },
   ]);
 
@@ -37,7 +104,10 @@ export default function LiveDashboard() {
         radar: "ปกติ",
         pantilt: "ปกติ",
         adsb: "ปกติ",
-        ups: "ปกติ",
+        upsc2: "ปกติ",
+      ups1: "ปกติ",
+      ups2: "ปกติ",
+      ups3: "ปกติ",
         issue: "",
         solution: "",
       },
@@ -86,7 +156,10 @@ export default function LiveDashboard() {
                 "Radar",
                 "PanTilt",
                 "ADS-B",
-                "UPS",
+                "UPS C2",
+                "UPS 1",
+                "UPS 2",
+                "UPS 3",
                 "ปัญหา",
                 "การแก้ไข",
               ].map((h) => (
@@ -106,7 +179,10 @@ export default function LiveDashboard() {
                     field === "radar" ||
                     field === "pantilt" ||
                     field === "adsb" ||
-                    field === "ups" ? (
+                    field === "upsc2" ||
+                    field === "ups1" ||
+                    field === "ups2" ||
+                    field === "ups3" ? (
                       <select
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
