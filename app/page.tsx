@@ -159,7 +159,7 @@ export default function LiveDashboard() {
                 <th
                   key={h}
                   style={{
-                    padding: "2px 3px",
+                    padding: "5px 4px",
                     fontSize: "13px",
                     textAlign: "center",
                   }}
@@ -176,7 +176,7 @@ export default function LiveDashboard() {
                   <td
                     key={field}
                     style={{
-                      padding: "2px 3px",
+                      padding: "5px 4px",
                       fontSize: "13px",
                       textAlign: field === "unit" ? "left" : "center",
                     }}
@@ -187,8 +187,8 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "50px",
-                          padding: "2px 3px",
+                          minWidth: "60px",
+                          padding: "5px 4px",
                           fontSize: "13px",
                           borderRadius: "8px",
                           border: "1px solid #ccc",
@@ -200,8 +200,8 @@ export default function LiveDashboard() {
                         onChange={(e) => updateRow(idx, field, e.target.value)}
                         style={{
                           width: "100%",
-                          minWidth: "55px",
-                          padding: "2px 3px",
+                          minWidth: "52px",
+                          padding: "5px 4px",
                           borderRadius: "8px",
                           background: badgeColor((row as any)[field]),
                           color: "white",
@@ -217,11 +217,11 @@ export default function LiveDashboard() {
                       <textarea
                         value={(row as any)[field]}
                         onChange={(e) => updateRow(idx, field, e.target.value)}
-                        rows={1}
+                        rows={2}
                         style={{
                           width: "100%",
-                          minWidth: "520px",
-                          padding: "2px 3px",
+                          minWidth: "380px",
+                          padding: "5px 4px",
                           resize: "vertical",
                           wordBreak: "break-word",
                           borderRadius: "8px",
