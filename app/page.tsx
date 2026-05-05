@@ -343,3 +343,10 @@ export default function Page() {
                   </div>
                 </td>
               </tr>
+                        ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
