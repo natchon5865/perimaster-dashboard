@@ -107,18 +107,6 @@ const defaultRows: UnitRow[] = [
 export default function Page() {
   const [rows, setRows] = useState<UnitRow[]>(defaultRows);
   const [currentTime, setCurrentTime] = useState("");
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkScreen = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkScreen();
-    window.addEventListener("resize", checkScreen);
-
-    return () => window.removeEventListener("resize", checkScreen);
-  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("perimaster-dashboard");
@@ -163,21 +151,22 @@ export default function Page() {
         ? "#d97706"
         : "#dc2626",
     color: "white",
-    minWidth: isMobile ? "110px" : "132px",
-    maxWidth: isMobile ? "110px" : "132px",
+    minWidth: "132px",
+    maxWidth: "132px",
     height: "46px",
-    fontSize: isMobile ? "14px" : "16px",
+    fontSize: "16px",
     fontWeight: "bold",
     padding: "6px 10px",
     textAlign: "center" as const,
     borderRadius: "10px",
     border: "none",
+    outline: "none",
     cursor: "pointer",
   });
 
   const textAreaStyle = {
-    width: isMobile ? "100%" : "48%",
-    minWidth: isMobile ? "100%" : "340px",
+    width: "48%",
+    minWidth: "340px",
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #ccc",
@@ -220,15 +209,17 @@ export default function Page() {
   return (
     <div
       style={{
-        padding: isMobile ? "12px" : "30px",
+        padding: "20px",
         fontFamily: "Arial, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
+        maxWidth: "100%",
+        margin: "0 auto",
       }}
     >
       <h1
         style={{
-          fontSize: isMobile ? "26px" : "48px",
+          fontSize: "48px",
           fontWeight: "bold",
           marginBottom: "10px",
           lineHeight: "1.2",
@@ -239,7 +230,7 @@ export default function Page() {
 
       <div
         style={{
-          fontSize: isMobile ? "18px" : "22px",
+          fontSize: "22px",
           fontWeight: "bold",
           marginBottom: "24px",
         }}
@@ -251,15 +242,16 @@ export default function Page() {
         style={{
           background: "white",
           borderRadius: "16px",
-          padding: isMobile ? "10px" : "18px",
+          padding: "18px",
           boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
           overflowX: "auto",
+          width: "100%",
         }}
       >
         <table
           style={{
             width: "100%",
-            minWidth: isMobile ? "1400px" : "100%",
+            minWidth: "1400px",
             borderCollapse: "collapse",
           }}
         >
@@ -270,8 +262,9 @@ export default function Page() {
                   key={header}
                   style={{
                     padding: "10px 6px",
-                    fontSize: isMobile ? "13px" : "15px",
+                    fontSize: "15px",
                     whiteSpace: "nowrap",
+                    textAlign: "center",
                   }}
                 >
                   {header}
@@ -294,7 +287,13 @@ export default function Page() {
                 </td>
 
                 {statusFields.map((field) => (
-                  <td key={field} style={{ padding: "6px 3px" }}>
+                  <td
+                    key={field}
+                    style={{
+                      padding: "6px 3px",
+                      textAlign: "center",
+                    }}
+                  >
                     <select
                       value={row[field]}
                       onChange={(e) =>
@@ -313,8 +312,9 @@ export default function Page() {
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: isMobile ? "column" : "row",
                       gap: "14px",
+                      width: "100%",
+                      flexWrap: "wrap",
                     }}
                   >
                     <textarea
