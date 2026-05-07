@@ -108,20 +108,32 @@ export default function Page() {
   const [rows, setRows] = useState<UnitRow[]>(defaultRows);
   const [currentTime, setCurrentTime] = useState("");
 
+  /* โหลดข้อมูล */
   useEffect(() => {
-    const saved = localStorage.getItem("perimaster-dashboard");
-    if (saved) {
-      setRows(JSON.parse(saved));
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("perimaster-dashboard");
+      if (saved) {
+        setRows(JSON.parse(saved));
+      }
     }
   }, []);
 
+  /* บันทึกอัตโนมัติ */
   useEffect(() => {
-    localStorage.setItem("perimaster-dashboard", JSON.stringify(rows));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        "perimaster-dashboard",
+        JSON.stringify(rows)
+      );
+    }
   }, [rows]);
 
+  /* เวลา */
   useEffect(() => {
     const updateClock = () => {
-      setCurrentTime(new Date().toLocaleString("th-TH"));
+      setCurrentTime(
+        new Date().toLocaleString("th-TH")
+      );
     };
 
     updateClock();
@@ -136,11 +148,21 @@ export default function Page() {
     value: UnitRow[keyof UnitRow]
   ) => {
     const updated = [...rows];
+
     updated[index] = {
       ...updated[index],
       [field]: value,
     };
+
     setRows(updated);
+
+    /* บันทึกทันทีสำหรับมือถือ */
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        "perimaster-dashboard",
+        JSON.stringify(updated)
+      );
+    }
   };
 
   const getStatusStyle = (status: Status) => ({
@@ -152,7 +174,6 @@ export default function Page() {
         : "#dc2626",
     color: "white",
     minWidth: "132px",
-    maxWidth: "132px",
     height: "46px",
     fontSize: "16px",
     fontWeight: "bold",
@@ -160,13 +181,12 @@ export default function Page() {
     textAlign: "center" as const,
     borderRadius: "10px",
     border: "none",
-    outline: "none",
     cursor: "pointer",
   });
 
   const textAreaStyle = {
-    width: "48%",
-    minWidth: "340px",
+    width: "100%",
+    minWidth: "220px",
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #ccc",
@@ -213,8 +233,6 @@ export default function Page() {
         fontFamily: "Arial, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
-        maxWidth: "100%",
-        margin: "0 auto",
       }}
     >
       <h1
@@ -245,18 +263,22 @@ export default function Page() {
           padding: "18px",
           boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
           overflowX: "auto",
-          width: "100%",
         }}
       >
         <table
           style={{
             width: "100%",
-            minWidth: "1400px",
+            minWidth: "1700px",
             borderCollapse: "collapse",
           }}
         >
           <thead>
-            <tr style={{ background: "#0f172a", color: "white" }}>
+            <tr
+              style={{
+                background: "#0f172a",
+                color: "white",
+              }}
+            >
               {headers.map((header) => (
                 <th
                   key={header}
@@ -275,7 +297,13 @@ export default function Page() {
 
           <tbody>
             {rows.map((row, idx) => (
-              <tr key={idx} style={{ borderBottom: "1px solid #e5e7eb" }}>
+              <tr
+                key={idx}
+                style={{
+                  borderBottom:
+                    "1px solid #e5e7eb",
+                }}
+              >
                 <td
                   style={{
                     padding: "8px",
@@ -297,46 +325,71 @@ export default function Page() {
                     <select
                       value={row[field]}
                       onChange={(e) =>
-                        updateRow(idx, field, e.target.value as Status)
+                        updateRow(
+                          idx,
+                          field,
+                          e.target.value as Status
+                        )
                       }
-                      style={getStatusStyle(row[field] as Status)}
+                      style={getStatusStyle(
+                        row[field] as Status
+                      )}
                     >
-                      <option value="ปกติ">ปกติ</option>
-                      <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-                      <option value="ขัดข้อง">ขัดข้อง</option>
+                      <option value="ปกติ">
+                        ปกติ
+                      </option>
+                      <option value="รอตรวจสอบ">
+                        รอตรวจสอบ
+                      </option>
+                      <option value="ขัดข้อง">
+                        ขัดข้อง
+                      </option>
                     </select>
                   </td>
                 ))}
 
-                <td colSpan={2} style={{ padding: "8px" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "14px",
-                      width: "100%",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <textarea
-                      value={row.issue}
-                      onChange={(e) =>
-                        updateRow(idx, "issue", e.target.value)
-                      }
-                      rows={2}
-                      placeholder="ปัญหา"
-                      style={textAreaStyle}
-                    />
+                {/* ปัญหา */}
+                <td
+                  style={{
+                    padding: "8px",
+                    minWidth: "260px",
+                  }}
+                >
+                  <textarea
+                    value={row.issue}
+                    onChange={(e) =>
+                      updateRow(
+                        idx,
+                        "issue",
+                        e.target.value
+                      )
+                    }
+                    rows={2}
+                    placeholder="ปัญหา"
+                    style={textAreaStyle}
+                  />
+                </td>
 
-                    <textarea
-                      value={row.solution}
-                      onChange={(e) =>
-                        updateRow(idx, "solution", e.target.value)
-                      }
-                      rows={2}
-                      placeholder="การแก้ไข"
-                      style={textAreaStyle}
-                    />
-                  </div>
+                {/* การแก้ไข */}
+                <td
+                  style={{
+                    padding: "8px",
+                    minWidth: "260px",
+                  }}
+                >
+                  <textarea
+                    value={row.solution}
+                    onChange={(e) =>
+                      updateRow(
+                        idx,
+                        "solution",
+                        e.target.value
+                      )
+                    }
+                    rows={2}
+                    placeholder="การแก้ไข"
+                    style={textAreaStyle}
+                  />
                 </td>
               </tr>
             ))}
