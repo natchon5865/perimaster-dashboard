@@ -21,92 +21,21 @@ interface UnitRow {
   solution: string;
 }
 
-const defaultRows: UnitRow[] = [
-  {
-    unit: "ดอนเมือง",
-    rf1: "ปกติ",
-    rf2: "ปกติ",
-    rf3: "ปกติ",
-    jammer: "ขัดข้อง",
-    radar: "ปกติ",
-    pantilt: "รอตรวจสอบ",
-    adsb: "ปกติ",
-    upsc2: "ปกติ",
-    ups1: "ปกติ",
-    ups2: "ปกติ",
-    ups3: "ปกติ",
-    issue: "Power Module Fault",
-    solution: "รอเปลี่ยนอะไหล่",
-  },
-  {
-    unit: "บน.1",
-    rf1: "ปกติ",
-    rf2: "ปกติ",
-    rf3: "ปกติ",
-    jammer: "ปกติ",
-    radar: "ปกติ",
-    pantilt: "ปกติ",
-    adsb: "ปกติ",
-    upsc2: "ปกติ",
-    ups1: "ปกติ",
-    ups2: "ปกติ",
-    ups3: "ปกติ",
-    issue: "",
-    solution: "",
-  },
-  {
-    unit: "บน.4",
-    rf1: "ปกติ",
-    rf2: "ปกติ",
-    rf3: "ปกติ",
-    jammer: "ปกติ",
-    radar: "ปกติ",
-    pantilt: "ปกติ",
-    adsb: "ปกติ",
-    upsc2: "ปกติ",
-    ups1: "ปกติ",
-    ups2: "ปกติ",
-    ups3: "ปกติ",
-    issue: "",
-    solution: "",
-  },
-  {
-    unit: "บน.7",
-    rf1: "ปกติ",
-    rf2: "ปกติ",
-    rf3: "ปกติ",
-    jammer: "ปกติ",
-    radar: "ปกติ",
-    pantilt: "ปกติ",
-    adsb: "ปกติ",
-    upsc2: "ปกติ",
-    ups1: "ปกติ",
-    ups2: "ปกติ",
-    ups3: "ปกติ",
-    issue: "",
-    solution: "",
-  },
-  {
-    unit: "บน.21",
-    rf1: "ปกติ",
-    rf2: "ปกติ",
-    rf3: "ปกติ",
-    jammer: "ปกติ",
-    radar: "ปกติ",
-    pantilt: "ปกติ",
-    adsb: "ปกติ",
-    upsc2: "ปกติ",
-    ups1: "ปกติ",
-    ups2: "ปกติ",
-    ups3: "ปกติ",
-    issue: "",
-    solution: "",
-  },
-];
-
 export default function Page() {
   const [rows, setRows] = useState<UnitRow[]>(defaultRows);
   const [currentTime, setCurrentTime] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("perimaster-dashboard");
@@ -151,10 +80,10 @@ export default function Page() {
         ? "#d97706"
         : "#dc2626",
     color: "white",
-    minWidth: "132px",
-    maxWidth: "132px",
+    minWidth: isMobile ? "110px" : "132px",
+    maxWidth: isMobile ? "110px" : "132px",
     height: "46px",
-    fontSize: "16px",
+    fontSize: isMobile ? "14px" : "16px",
     fontWeight: "bold",
     padding: "6px 10px",
     textAlign: "center" as const,
@@ -166,8 +95,8 @@ export default function Page() {
   });
 
   const textAreaStyle = {
-    width: "48%",
-    minWidth: "340px",
+    width: isMobile ? "100%" : "48%",
+    minWidth: isMobile ? "100%" : "340px",
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #ccc",
@@ -210,17 +139,21 @@ export default function Page() {
   return (
     <div
       style={{
-        padding: "30px",
+        padding: isMobile ? "12px" : "30px",
         fontFamily: "Arial, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
+        maxWidth: "100%",
+        overflowX: "hidden",
       }}
     >
       <h1
         style={{
-          fontSize: "48px",
+          fontSize: isMobile ? "26px" : "48px",
           fontWeight: "bold",
           marginBottom: "10px",
+          lineHeight: "1.2",
+          wordBreak: "break-word",
         }}
       >
         Perimaster Live Monitoring Dashboard
@@ -228,7 +161,7 @@ export default function Page() {
 
       <div
         style={{
-          fontSize: "22px",
+          fontSize: isMobile ? "18px" : "22px",
           fontWeight: "bold",
           marginBottom: "24px",
         }}
@@ -240,7 +173,7 @@ export default function Page() {
         style={{
           background: "white",
           borderRadius: "16px",
-          padding: "18px",
+          padding: isMobile ? "10px" : "18px",
           boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
           overflowX: "auto",
         }}
@@ -248,8 +181,8 @@ export default function Page() {
         <table
           style={{
             width: "100%",
+            minWidth: isMobile ? "1200px" : "100%",
             borderCollapse: "collapse",
-            tableLayout: "auto",
           }}
         >
           <thead>
@@ -264,7 +197,7 @@ export default function Page() {
                   key={header}
                   style={{
                     padding: "10px 6px",
-                    fontSize: "15px",
+                    fontSize: isMobile ? "13px" : "15px",
                     textAlign: "center",
                     whiteSpace: "nowrap",
                   }}
@@ -287,7 +220,7 @@ export default function Page() {
                   style={{
                     padding: "8px",
                     fontWeight: "bold",
-                    fontSize: "14px",
+                    fontSize: isMobile ? "13px" : "14px",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -303,34 +236,16 @@ export default function Page() {
                     }}
                   >
                     <select
-  value={row[field]}
-  onChange={(e) =>
-    updateRow(
-      idx,
-      field,
-      e.target.value as Status
-    )
-  }
-  style={getStatusStyle(row[field] as Status)}
->
-  <option value="ปกติ" style={{ backgroundColor: "#16a34a", color: "white" }}>
-    ปกติ
-  </option>
-
-  <option
-    value="รอตรวจสอบ"
-    style={{ backgroundColor: "#d97706", color: "white" }}
-  >
-    รอตรวจสอบ
-  </option>
-
-  <option
-    value="ขัดข้อง"
-    style={{ backgroundColor: "#dc2626", color: "white" }}
-  >
-    ขัดข้อง
-  </option>
-</select>
+                      value={row[field]}
+                      onChange={(e) =>
+                        updateRow(idx, field, e.target.value as Status)
+                      }
+                      style={getStatusStyle(row[field] as Status)}
+                    >
+                      <option value="ปกติ">ปกติ</option>
+                      <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+                      <option value="ขัดข้อง">ขัดข้อง</option>
+                    </select>
                   </td>
                 ))}
 
@@ -338,6 +253,7 @@ export default function Page() {
                   <div
                     style={{
                       display: "flex",
+                      flexDirection: isMobile ? "column" : "row",
                       gap: "14px",
                       width: "100%",
                     }}
@@ -345,11 +261,7 @@ export default function Page() {
                     <textarea
                       value={row.issue}
                       onChange={(e) =>
-                        updateRow(
-                          idx,
-                          "issue",
-                          e.target.value
-                        )
+                        updateRow(idx, "issue", e.target.value)
                       }
                       rows={2}
                       placeholder="ปัญหา"
@@ -359,11 +271,7 @@ export default function Page() {
                     <textarea
                       value={row.solution}
                       onChange={(e) =>
-                        updateRow(
-                          idx,
-                          "solution",
-                          e.target.value
-                        )
+                        updateRow(idx, "solution", e.target.value)
                       }
                       rows={2}
                       placeholder="การแก้ไข"
@@ -372,11 +280,10 @@ export default function Page() {
                   </div>
                 </td>
               </tr>
-          ))}
+            ))}
           </tbody>
         </table>
       </div>
     </div>
   );
 }
-          
