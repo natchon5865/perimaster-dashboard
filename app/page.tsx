@@ -21,6 +21,89 @@ interface UnitRow {
   solution: string;
 }
 
+const defaultRows: UnitRow[] = [
+  {
+    unit: "ดอนเมือง",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ขัดข้อง",
+    radar: "ปกติ",
+    pantilt: "รอตรวจสอบ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "Power Module Fault",
+    solution: "รอเปลี่ยนอะไหล่",
+  },
+  {
+    unit: "บน.1",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.4",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.7",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+  {
+    unit: "บน.21",
+    rf1: "ปกติ",
+    rf2: "ปกติ",
+    rf3: "ปกติ",
+    jammer: "ปกติ",
+    radar: "ปกติ",
+    pantilt: "ปกติ",
+    adsb: "ปกติ",
+    upsc2: "ปกติ",
+    ups1: "ปกติ",
+    ups2: "ปกติ",
+    ups3: "ปกติ",
+    issue: "",
+    solution: "",
+  },
+];
+
 export default function Page() {
   const [rows, setRows] = useState<UnitRow[]>(defaultRows);
   const [currentTime, setCurrentTime] = useState("");
@@ -88,9 +171,7 @@ export default function Page() {
     padding: "6px 10px",
     textAlign: "center" as const,
     borderRadius: "10px",
-    whiteSpace: "nowrap" as const,
     border: "none",
-    outline: "none",
     cursor: "pointer",
   });
 
@@ -143,8 +224,6 @@ export default function Page() {
         fontFamily: "Arial, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
-        maxWidth: "100%",
-        overflowX: "hidden",
       }}
     >
       <h1
@@ -153,7 +232,6 @@ export default function Page() {
           fontWeight: "bold",
           marginBottom: "10px",
           lineHeight: "1.2",
-          wordBreak: "break-word",
         }}
       >
         Perimaster Live Monitoring Dashboard
@@ -181,24 +259,18 @@ export default function Page() {
         <table
           style={{
             width: "100%",
-            minWidth: isMobile ? "1200px" : "100%",
+            minWidth: isMobile ? "1400px" : "100%",
             borderCollapse: "collapse",
           }}
         >
           <thead>
-            <tr
-              style={{
-                background: "#0f172a",
-                color: "white",
-              }}
-            >
+            <tr style={{ background: "#0f172a", color: "white" }}>
               {headers.map((header) => (
                 <th
                   key={header}
                   style={{
                     padding: "10px 6px",
                     fontSize: isMobile ? "13px" : "15px",
-                    textAlign: "center",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -210,17 +282,11 @@ export default function Page() {
 
           <tbody>
             {rows.map((row, idx) => (
-              <tr
-                key={idx}
-                style={{
-                  borderBottom: "1px solid #e5e7eb",
-                }}
-              >
+              <tr key={idx} style={{ borderBottom: "1px solid #e5e7eb" }}>
                 <td
                   style={{
                     padding: "8px",
                     fontWeight: "bold",
-                    fontSize: isMobile ? "13px" : "14px",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -228,13 +294,7 @@ export default function Page() {
                 </td>
 
                 {statusFields.map((field) => (
-                  <td
-                    key={field}
-                    style={{
-                      padding: "6px 3px",
-                      textAlign: "center",
-                    }}
-                  >
+                  <td key={field} style={{ padding: "6px 3px" }}>
                     <select
                       value={row[field]}
                       onChange={(e) =>
@@ -255,7 +315,6 @@ export default function Page() {
                       display: "flex",
                       flexDirection: isMobile ? "column" : "row",
                       gap: "14px",
-                      width: "100%",
                     }}
                   >
                     <textarea
